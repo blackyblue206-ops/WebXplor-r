@@ -38,7 +38,7 @@ class MainActivity : Activity() {
   top.addView(address,LinearLayout.LayoutParams(0,dp(44),1f));top.addView(btn("GO"){navigate(address.text.toString())});root.addView(top)
   status=TextView(this).apply{text="  🛡 Cookies  Ads  Trackers";textSize=11f;setTextColor(accent);setPadding(dp(12),dp(4),dp(12),dp(4))};root.addView(status)
   web=WebView(this);web.settings.javaScriptEnabled=true;web.settings.domStorageEnabled=true;web.settings.loadsImagesAutomatically=true;web.settings.javaScriptCanOpenWindowsAutomatically=false;web.settings.setSupportMultipleWindows(false);web.settings.allowFileAccess=false;web.settings.allowContentAccess=false;web.settings.mixedContentMode=WebSettings.MIXED_CONTENT_NEVER_ALLOW
-  CookieManager.getInstance().setAcceptCookie(enabled("cookies"))
+  CookieManager.getInstance().setAcceptCookie(!enabled("cookies"))
   web.webViewClient=object:WebViewClient(){
    override fun shouldOverrideUrlLoading(v:WebView?,r:WebResourceRequest?):Boolean{val u=r?.url?:return false;return u.scheme!="http"&&u.scheme!="https"}
    override fun shouldInterceptRequest(v:WebView?,r:WebResourceRequest?):WebResourceResponse?{val h=r?.url?.host?.lowercase(Locale.ROOT)?:return null;val block=(enabled("ads")&&adHosts.any{h==it||h.endsWith("."+it)})||(enabled("trackers")&&trackerHosts.any{h==it||h.endsWith("."+it)});return if(block)WebResourceResponse("text/plain","utf-8",null) else null}
